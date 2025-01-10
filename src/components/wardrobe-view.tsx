@@ -14,9 +14,11 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ImagePicker } from './image-picker';
 import { ItemForm } from './item-form';
-import { useWardrobe } from '../hooks/use-wardrobe';
+import { useWardrobe } from './hooks/use-wardrobe';
 import { wardrobeItems } from '../../data/wardrobe-items';
 import { ClothingItem } from '../../types/clothing';
+import { Filter } from '../../types/outfit'
+import { FilterSidebar } from './filter-sidebar'
 import {
   Carousel,
   CarouselContent,
@@ -26,8 +28,8 @@ import {
 } from '@/components/ui/carousel';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
-import { useRef } from 'react';
 import { type CarouselApi } from '@/components/ui/carousel';
+import { useToast } from "@/components/hooks/use-toast"
 
 interface ClothingSectionProps {
   items: ClothingItem[];
@@ -108,6 +110,8 @@ export default function WardrobeView() {
     allPants,
     allShoes,
   } = useWardrobe(wardrobeItems);
+  const [filters, setFilters] = useState<Filter>({})
+  const { toast } = useToast()
 
   const handleImageSelect = (imageUrl: string) => {
     setSelectedImage(imageUrl);
@@ -123,36 +127,41 @@ export default function WardrobeView() {
     );
   }
 
+  const handleSaveOutfit = () => {
+    // Mock save functionality - replace with actual data storage
+    toast({
+      title: "Outfit saved!",
+      description: "Your outfit has been saved to your collection."
+    })
+  }
+
   return (
     <div className="h-screen pb-2 py-2 w-full max-w-md mx-auto bg-white flex flex-col">
       <div className="px-4 py-2 flex items-center justify-between"></div>
 
       {/* Top Actions */}
       <div className="px-4 py-2 flex items-center justify-between">
-        <Button variant="ghost" size="icon" className="h-10 w-10">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            className="w-6 h-6"
-          >
-            <path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-          </svg>
-        </Button>
+        <FilterSidebar filters={filters} onFilterChange={setFilters} />
         <div className="flex gap-2">
-          <Button
-            variant="ghost"
+          <Button 
+            variant="ghost" 
             size="icon"
             onClick={() => setIsImagePickerOpen(true)}
           >
             <Plus className="h-6 w-6" />
           </Button>
-          <Button variant="ghost" size="icon">
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={handleSaveOutfit}
+          >
             <Heart className="h-6 w-6" />
           </Button>
         </div>
       </div>
+
+
+
 
       {/* Main Content */}
       <div className="flex-1 px-4 py-20 flex flex-col gap-8">
@@ -207,3 +216,4 @@ export default function WardrobeView() {
     </div>
   );
 }
+
