@@ -136,7 +136,7 @@ export default function WardrobeView() {
   }
 
   return (
-    <div className="h-screen pb-2 py-2 w-full max-w-md mx-auto bg-white flex flex-col">
+    <div className="py-2 w-full max-w-md mx-auto bg-white flex flex-col">
       <div className="px-4 py-2 flex items-center justify-between"></div>
 
       {/* Top Actions */}
@@ -160,11 +160,8 @@ export default function WardrobeView() {
         </div>
       </div>
 
-
-
-
       {/* Main Content */}
-      <div className="flex-1 px-4 py-20 flex flex-col gap-8">
+      <div className="flex-1 px-4 pt-10 pb-5 flex flex-col gap-8">
         <ClothingSection
           items={allShirts}
           type="shirt"
@@ -184,9 +181,7 @@ export default function WardrobeView() {
           onNext={() => cycleItem('shoes', 'next')}
         />
       </div>
-
-      {/* Bottom Navigation */}
-      <div className="px-4 py-2 border-t flex items-center justify-around">
+      <div className="px-4 border-t flex items-center justify-around">
         <Button variant="ghost" size="icon">
           <Home className="h-6 w-6" />
         </Button>
